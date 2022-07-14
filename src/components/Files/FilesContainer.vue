@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <div
-            class="grid grid-flow-row-dense grid-cols-2 md:grid-cols-4 gap-4 place-items-center bg-slate-800 h-96 px-4 py-4">
+            class=" grid grid-flow-row-dense grid-cols-2 md:grid-cols-5 gap-4 place-items-center bg-slate-900 h-96 px-4 py-4">
             <FileVue v-for="file in files" :file="file" />
         </div>
     </div>

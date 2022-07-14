@@ -1,5 +1,6 @@
+
 <template>
-    <div>
+    <div draggable="true" @dragstart="handleDragStart" class="cursor-grab bg-slate-800 p-2 hover:brightness-150">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -13,4 +14,6 @@
 
 <script setup lang="ts">
 const { file } = defineProps(['file'])
+const handleDragStart = (event: DragEvent) => {
+}
 </script>
