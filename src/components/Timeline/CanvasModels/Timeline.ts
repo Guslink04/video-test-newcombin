@@ -28,11 +28,7 @@ class Timeline {
     this.addNewTrack();
     this.resizeCanvas();
   }
-  resizeCanvas() {
-    this.canvas.width = window.innerWidth * 2;
-    this.canvas.height = <number>this.canvas.parentElement?.clientHeight;
-    this.draw();
-  }
+
   addNewTrack() {
     // Demo tracks
     this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
@@ -40,6 +36,7 @@ class Timeline {
     this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
     this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
   }
+
   addNewBar(fileObjectAsString: string) {
     if (this.tracks.length > 0)
       this.bars.push(
@@ -51,6 +48,17 @@ class Timeline {
         )
       );
   }
+
+  catchEvent(event: Event) {
+    if (
+      event.type == "mousedown" ||
+      event.type == "mousemove" ||
+      event.type == "mouseup"
+    )
+      this.notifyBarsAboutEvent(event);
+    this.draw();
+  }
+
   draw() {
     this.drawBackground();
     this.drawRuler();
@@ -80,6 +88,18 @@ class Timeline {
   }
   drawNeedle() {
     this.needle.draw();
+  }
+
+  notifyBarsAboutEvent(event: Event) {
+    this.bars.forEach((bar) => {
+      bar.catchEvent(event);
+    });
+  }
+
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth * 2;
+    this.canvas.height = <number>this.canvas.parentElement?.clientHeight;
+    this.draw();
   }
 }
 

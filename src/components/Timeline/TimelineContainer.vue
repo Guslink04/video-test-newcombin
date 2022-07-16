@@ -29,17 +29,20 @@
 <template>
     <div class="w-full bg-slate-900 my-2 timeline-canvas-container" @drop="handleDrop" @dragover="handleDragOver"
         @dragenter="handleDragEnter" @dragleave="handleDragLeave">
-        <canvas id="timeline-canvas"> </canvas>
+        <canvas id="timeline-canvas" @click="handleEvent" @mouseleave="handleEvent" @mouseup="handleEvent"
+            @mousedown="handleEvent" @mousemove="handleEvent"> </canvas>
     </div>
 </template>
 
 <script setup lang="ts">
 import Timeline from "./CanvasModels/Timeline";
-import { onMounted, reactive } from "vue";
-
+import { onMounted } from "vue";
 
 let timeline: Timeline | null = null;
 
+const handleEvent = (event: Event) => {
+    timeline?.catchEvent(event)
+}
 const handleDrop = (event: DragEvent) => {
     event.preventDefault();
     const element = event.target as Element;
@@ -48,7 +51,6 @@ const handleDrop = (event: DragEvent) => {
     const timeln = <Timeline>timeline
     timeln.addNewBar(data);
     timeline?.draw();
-    console.log(data);
     element.classList.remove("brightness-150");
 };
 const handleDragOver = (event: DragEvent) => {

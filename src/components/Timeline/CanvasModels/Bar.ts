@@ -9,37 +9,66 @@ interface File {
 
 class Bar {
   canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
-  start: number;
-  end: number;
-  track: Track;
-  ruler: Ruler;
-  file: any;
   color: string;
+  context: CanvasRenderingContext2D;
+  endInPixels: number;
+  file: any;
+  isBeingDragged: boolean;
+  ruler: Ruler;
+  startInPixels: number;
+  track: Track;
   constructor(
     canvas: HTMLCanvasElement,
     ruler: Ruler,
     track: Track,
     file: File
   ) {
-    // Aquí se define
-    this.start = 0;
-    this.end = file.duration;
-    this.color = "#fff";
     this.canvas = canvas;
+    this.color = "#fff";
     this.context = <CanvasRenderingContext2D>this.canvas.getContext("2d");
-    // Aquí se define
-    this.track = track;
-    this.ruler = ruler;
     this.file = { ...file };
+    this.isBeingDragged = false;
+    this.ruler = ruler;
+    this.startInPixels = 0;
+    this.endInPixels = file.duration * this.ruler.pixelsPerSecond;
+    this.track = track;
   }
+  catchEvent(event: Event) {
+    if (event.type == "mousedown") this.willBeDragged(event);
+    if (event.type == "mousemove" && this.isBeingDragged) this.drag(event);
+    if (event.type == "mouseup") this.drop(event);
+  }
+
+  willBeDragged(event: Event) {
+    const mouseX = (event as PointerEvent).offsetX;
+    const mouseY = (event as PointerEvent).offsetY;
+    if (
+      mouseX > this.startInPixels &&
+      mouseX < this.endInPixels &&
+      mouseY > this.track.y &&
+      mouseY < this.track.y + this.track.height
+    ) {
+      this.isBeingDragged = true;
+    }
+    return;
+  }
+  drag(event: Event) {
+    const mouseX = (event as PointerEvent).offsetX;
+    const mouseY = (event as PointerEvent).offsetY;
+    const length = this.file.duration * this.ruler.pixelsPerSecond;
+    this.startInPixels = mouseX - length * 0.5;
+    this.endInPixels = mouseX + length * 0.5;
+  }
+  drop(event: Event) {
+    this.isBeingDragged = false;
+  }
+
   draw() {
-    console.log("Draw bar called");
     this.context.fillStyle = this.color;
     this.context.fillRect(
-      this.start * this.ruler.pixelsPerSecond,
+      this.startInPixels,
       this.track.y,
-      this.end * this.ruler.pixelsPerSecond,
+      this.file.duration * this.ruler.pixelsPerSecond,
       this.track.height
     );
   }
