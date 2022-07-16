@@ -12,13 +12,13 @@
  import { ref } from 'vue'
  
  const files = ref([
-     { name: "Test file A", duration: 1000, src: "placeholderA.mp4" },
-     { name: "Test file B", duration: 2000, src: "placeholderB.mp4" },
-     { name: "Test file C", duration: 3000, src: "placeholderC.mp4" },
-     { name: "Test file D", duration: 4000, src: "placeholderD.mp4" },
-     { name: "Test file E", duration: 5000, src: "placeholderE.mp4" },
-     { name: "Test file F", duration: 6000, src: "placeholderF.mp4" },
-     { name: "Test file G", duration: 7000, src: "placeholderG.mp4" },
+     { name: "Test file A", duration: 100, src: "placeholderA.mp4" },
+     { name: "Test file B", duration: 200, src: "placeholderB.mp4" },
+     { name: "Test file C", duration: 300, src: "placeholderC.mp4" },
+     { name: "Test file D", duration: 400, src: "placeholderD.mp4" },
+     { name: "Test file E", duration: 500, src: "placeholderE.mp4" },
+     { name: "Test file F", duration: 600, src: "placeholderF.mp4" },
+     { name: "Test file G", duration: 700, src: "placeholderG.mp4" },
  ])
  
  </script>

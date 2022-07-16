@@ -35,10 +35,20 @@
 
 <script setup lang="ts">
 import Timeline from "./CanvasModels/Timeline";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive } from "vue";
+
+
+let timeline: Timeline | null = null;
+
 const handleDrop = (event: DragEvent) => {
     event.preventDefault();
     const element = event.target as Element;
+    const dataTransfer = <DataTransfer>event.dataTransfer;
+    const data = dataTransfer.getData('fileObject');
+    const timeln = <Timeline>timeline
+    timeln.addNewBar(data);
+    timeline?.draw();
+    console.log(data);
     element.classList.remove("brightness-150");
 };
 const handleDragOver = (event: DragEvent) => {
@@ -50,12 +60,12 @@ const handleDragEnter = (event: DragEvent) => {
     element.classList.add("brightness-150");
 };
 const handleDragLeave = (event: DragEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     const element = event.target as Element;
     element.classList.remove("brightness-150");
 };
 onMounted(() => {
-    const timeline = new Timeline("timeline-canvas");
+    timeline = new Timeline("timeline-canvas");
     timeline.draw();
 });
 </script>

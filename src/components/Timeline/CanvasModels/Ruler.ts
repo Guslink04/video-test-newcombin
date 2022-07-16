@@ -8,7 +8,7 @@ class Ruler {
 
   constructor(
     canvas: HTMLCanvasElement,
-    pixelsPerSecond: number = 5,
+    pixelsPerSecond: number = 2,
     stepInSeconds: number = 5
   ) {
     this.canvas = canvas;

@@ -13,7 +13,7 @@ class Track {
     this.canvas = canvas;
     this.color = "#33415599";
     this.context = <CanvasRenderingContext2D>this.canvas.getContext("2d");
-    this.height = 30;
+    this.height = 20;
     this.index = index;
     this.name = `Track ${index}`;
     this.y = 0;
