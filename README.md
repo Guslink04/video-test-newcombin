@@ -3,7 +3,7 @@
 ## Install
 
 - clone the repository
-- cd <your-local-repository-route>
+- cd "your-local-repository-route"
 - npm install
 - npm run dev
 
