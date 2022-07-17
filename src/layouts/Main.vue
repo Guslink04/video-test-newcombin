@@ -14,7 +14,8 @@
 </template>
 <script setup lang="ts">
 import FilesContainerVue from '../components/Files/FilesContainer.vue';
+import TimelineContainerVue from '../components/Timeline/TimelineContainer.vue';
 import VideoContainerVue from '../components/Video/VideoContainer.vue';
-import TimelineContainerVue from '../components/Timeline/TimelineContainer.vue'; 
+
 </script>
 

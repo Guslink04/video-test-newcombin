@@ -1,19 +1,22 @@
 import Bar from "./Bar";
+import Timeline from "./Timeline";
 class Track {
   bars: Bar[];
-  canvas: HTMLCanvasElement;
   color: string;
   context: CanvasRenderingContext2D;
   height: number;
   index: number;
+  timeline: Timeline;
   isGrabbed: boolean;
   name: string;
   y: number;
-  constructor(canvas: HTMLCanvasElement, index: number) {
+  constructor(timeline: Timeline, index: number) {
     this.bars = [];
-    this.canvas = canvas;
     this.color = "#33415599";
-    this.context = <CanvasRenderingContext2D>this.canvas.getContext("2d");
+    this.timeline = timeline;
+    this.context = <CanvasRenderingContext2D>(
+      this.timeline.canvas.getContext("2d")
+    );
     this.height = 20;
     this.index = index;
     this.isGrabbed = false;
@@ -26,8 +29,19 @@ class Track {
   draw() {
     this.context.fillStyle = this.color;
     if (!this.isGrabbed)
-      this.context.fillRect(0, this.y, this.canvas?.width, this.height);
-    else this.context.fillRect(0, this.y, this.canvas?.width, this.height);
+      this.context.fillRect(
+        0,
+        this.y,
+        this.timeline.canvas?.width,
+        this.height
+      );
+    else
+      this.context.fillRect(
+        0,
+        this.y,
+        this.timeline.canvas?.width,
+        this.height
+      );
   }
 }
 export default Track;

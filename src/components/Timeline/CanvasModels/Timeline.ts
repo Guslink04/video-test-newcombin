@@ -10,7 +10,6 @@ class Timeline {
   needle: Needle;
   ruler: Ruler;
   start: number;
-  pixelsPerSecond: number;
   tracks: Track[];
   bars: Bar[];
   constructor(canvasId: string) {
@@ -18,12 +17,11 @@ class Timeline {
     this.start = 0;
     this.tracks = [];
     this.bars = [];
-    this.pixelsPerSecond = 2;
 
     this.canvas = <HTMLCanvasElement>document.getElementById(canvasId);
     this.context = <CanvasRenderingContext2D>this.canvas.getContext("2d");
-    this.ruler = new Ruler(this.canvas, this.pixelsPerSecond, 30);
-    this.needle = new Needle(this.canvas);
+    this.ruler = new Ruler(this);
+    this.needle = new Needle(this);
 
     this.addNewTrack();
     this.resizeCanvas();
@@ -31,31 +29,23 @@ class Timeline {
 
   addNewTrack() {
     // Demo tracks
-    this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
-    this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
-    this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
-    this.tracks.push(new Track(this.canvas, this.tracks.length + 1));
+    this.tracks.push(new Track(this, this.tracks.length + 1));
+    this.tracks.push(new Track(this, this.tracks.length + 1));
+    this.tracks.push(new Track(this, this.tracks.length + 1));
+    this.tracks.push(new Track(this, this.tracks.length + 1));
   }
 
   addNewBar(fileObjectAsString: string) {
     if (this.tracks.length > 0)
       this.bars.push(
-        new Bar(
-          this.canvas,
-          this.ruler,
-          this.tracks[0],
-          JSON.parse(fileObjectAsString)
-        )
+        new Bar(this, this.tracks[0], JSON.parse(fileObjectAsString))
       );
+    this.needle.evaluateVideoColor();
   }
 
   catchEvent(event: Event) {
-    if (
-      event.type == "mousedown" ||
-      event.type == "mousemove" ||
-      event.type == "mouseup"
-    )
-      this.notifyBarsAboutEvent(event);
+    this.notifyBarsAboutEvent(event);
+    this.notifyNeedleAboutEvent(event);
     this.draw();
   }
 
@@ -90,6 +80,9 @@ class Timeline {
     this.needle.draw();
   }
 
+  notifyNeedleAboutEvent(event: Event) {
+    this.needle.catchEvent(event);
+  }
   notifyBarsAboutEvent(event: Event) {
     this.bars.forEach((bar) => {
       bar.catchEvent(event);

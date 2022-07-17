@@ -29,8 +29,9 @@
 <template>
     <div class="w-full bg-slate-900 my-2 timeline-canvas-container" @drop="handleDrop" @dragover="handleDragOver"
         @dragenter="handleDragEnter" @dragleave="handleDragLeave">
-        <canvas id="timeline-canvas" @click="handleEvent" @mouseleave="handleEvent" @mouseup="handleEvent"
-            @mousedown="handleEvent" @mousemove="handleEvent"> </canvas>
+        <canvas id="timeline-canvas" @click="sendEventToTimeline" @mouseleave="sendEventToTimeline"
+            @mouseup="sendEventToTimeline" @mousedown="sendEventToTimeline" @mousemove="sendEventToTimeline"
+            @mouseout="sendEventToTimeline"> </canvas>
     </div>
 </template>
 
@@ -40,7 +41,7 @@ import { onMounted } from "vue";
 
 let timeline: Timeline | null = null;
 
-const handleEvent = (event: Event) => {
+const sendEventToTimeline = (event: Event) => {
     timeline?.catchEvent(event)
 }
 const handleDrop = (event: DragEvent) => {
